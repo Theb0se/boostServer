@@ -40,7 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const authUser = asyncHandler(async (req, res) => {
-  console.log(55);
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -51,7 +50,6 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       number: user.number,
-      password: user.password,
     });
   } else {
     res.status(400);
@@ -60,4 +58,37 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+const updateEmail = asyncHandler(async (req, res) => {
+  const { userId, email, currEmail, password } = req.body;
+  console.log(userId, email, currEmail, password);
+
+  const user = await User.findOne({ currEmail });
+  console.log(user);
+  const passwordMatch = bcrypt.compareSync(password, user.password);
+  if (passwordMatch) {
+    const UpdateEmail = await User.findByIdAndUpdate(
+      userId,
+      {
+        email,
+      },
+      { new: true }
+    );
+    if (!UpdateEmail) {
+      res.status(404);
+
+      throw new Error("something went Wrong");
+    } else {
+      res.status(201).json({
+        id: UpdateEmail._id,
+        name: UpdateEmail.name,
+        email: UpdateEmail.email,
+        number: UpdateEmail.number,
+      });
+    }
+  } else {
+    res.status(404);
+    throw new Error("Password Wrong");
+  }
+});
+
+module.exports = { registerUser, authUser, updateEmail };

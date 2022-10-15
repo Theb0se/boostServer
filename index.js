@@ -6,6 +6,8 @@ require("dotenv").config();
 var cors = require("cors");
 
 app.use(cors());
+var cors = require("cors");
+app.use(cors());
 
 connectDB();
 app.use(express.json());
