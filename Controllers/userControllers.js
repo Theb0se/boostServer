@@ -60,7 +60,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 const updateEmail = asyncHandler(async (req, res) => {
   const { userId, email, currEmail, password } = req.body;
-  console.log(userId, email, currEmail, password);
+  // console.log(userId, email, currEmail, password);
 
   const user = await User.findOne({ currEmail });
   console.log(user);
@@ -75,7 +75,6 @@ const updateEmail = asyncHandler(async (req, res) => {
     );
     if (!UpdateEmail) {
       res.status(404);
-
       throw new Error("something went Wrong");
     } else {
       res.status(201).json({
@@ -91,4 +90,35 @@ const updateEmail = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser, updateEmail };
+const updatePassword = asyncHandler(async (req, res) => {
+  const { userId, email, currPassword, password } = req.body;
+  const hashpass = bcrypt.hashSync(password, salt);
+  const user = await User.findOne({ email });
+  console.log(user);
+  const passwordMatch = bcrypt.compareSync(currPassword, user.password);
+  if (passwordMatch) {
+    const updatePass = await User.findByIdAndUpdate(
+      userId,
+      {
+        password: hashpass,
+      },
+      { new: true }
+    );
+    if (!updatePass) {
+      res.status(404);
+      throw new Error("something went Wrong");
+    } else {
+      res.status(201).json({
+        id: updatePass._id,
+        name: updatePass.name,
+        email: updatePass.email,
+        number: updatePass.number,
+      });
+    }
+  } else {
+    res.status(404);
+    throw new Error("Password Wrong");
+  }
+});
+
+module.exports = { registerUser, authUser, updateEmail, updatePassword };
