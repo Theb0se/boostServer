@@ -95,6 +95,7 @@ const updateEmail = asyncHandler(async (req, res) => {
 
 const updatePassword = asyncHandler(async (req, res) => {
   const { userId, email, currPassword, password } = req.body;
+  console.log(userId, email, currPassword, password);
   const hashpass = bcrypt.hashSync(password, salt);
   const user = await User.findOne({ email });
   console.log(user);
