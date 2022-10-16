@@ -60,11 +60,14 @@ const authUser = asyncHandler(async (req, res) => {
 
 const updateEmail = asyncHandler(async (req, res) => {
   const { userId, email, currEmail, password } = req.body;
-  // console.log(userId, email, currEmail, password);
+  console.log(userId, email, currEmail, password);
 
-  const user = await User.findOne({ currEmail });
+  const user = await User.findOne({ email: currEmail });
   console.log(user);
-  const passwordMatch = bcrypt.compareSync(password, user.password);
+
+  const passwordMatch = user
+    ? bcrypt.compareSync(password, user.password)
+    : false;
   if (passwordMatch) {
     const UpdateEmail = await User.findByIdAndUpdate(
       userId,
@@ -117,7 +120,7 @@ const updatePassword = asyncHandler(async (req, res) => {
     }
   } else {
     res.status(404);
-    throw new Error("Password Wrong");
+    throw new Error("Password Wrong Or Email");
   }
 });
 
