@@ -98,7 +98,6 @@ const updatePassword = asyncHandler(async (req, res) => {
   console.log(userId, email, currPassword, password);
   const hashpass = bcrypt.hashSync(password, salt);
   const user = await User.findOne({ email });
-  console.log(user);
   const passwordMatch = bcrypt.compareSync(currPassword, user.password);
   if (passwordMatch) {
     const updatePass = await User.findByIdAndUpdate(
