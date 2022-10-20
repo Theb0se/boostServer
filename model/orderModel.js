@@ -5,6 +5,7 @@ const orderModel = mongoose.Schema(
     userId: { type: String, required: true },
     link: { type: String, required: true },
     service: { type: String, required: true },
+    quantity: { type: String, required: true },
   },
   { timestamps: true }
 );

@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/postOrder", postOrder);
 router.post("/getOrder", getOrder);
-router.post("/getAllOrder", getAllOrder);
+router.get("/getallorder", getAllOrder);
 
 module.exports = router;

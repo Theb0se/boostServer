@@ -3,7 +3,7 @@ const Order = require("../model/orderModel");
 const axios = require("axios");
 
 const postOrder = asyncHandler(async (req, res) => {
-  const { orderNumber, userId, link, service } = req.body;
+  const { orderNumber, userId, link, service, quantity } = req.body;
   if (!orderNumber || !userId || !link || !service) {
     res.status(400);
     throw new Error("Please Enter All The Fields");
@@ -16,6 +16,7 @@ const postOrder = asyncHandler(async (req, res) => {
     userId,
     link,
     service,
+    quantity,
   });
 
   if (order) {
@@ -29,8 +30,8 @@ const postOrder = asyncHandler(async (req, res) => {
 });
 const getOrder = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  const orders = await Order.find({ userId : userId }).sort({ orderNumber: 1 });
-console.log(userId);
+  const orders = await Order.find({ userId: userId }).sort({ orderNumber: 1 });
+  console.log(userId);
   const allOrder = orders.map((o) => o.orderNumber);
   const MultiStatus = {
     key: "8eac711290c821166246944b29bf1f62",
@@ -43,7 +44,7 @@ console.log(userId);
     .then(function (response) {
       const order = response.data;
 
-      const arrayOrder = Object.values(order)
+      const arrayOrder = Object.values(order);
       res.status(201).json({
         orders: orders,
         order: arrayOrder,
@@ -54,6 +55,15 @@ console.log(userId);
       console.log(error);
     });
 });
-const getAllOrder = asyncHandler(async (req, res) => {});
+const getAllOrder = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).sort({ orderNumber: 1 });
+  if (orders) {
+    console.log(orders);
+    res.status(201).json(orders);
+  } else {
+    console.log("error");
+    res.status(400).json("error");
+  }
+});
 
 module.exports = { postOrder, getAllOrder, getOrder };
