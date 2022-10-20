@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
 const userRoutes = require("./Routes/userRoutes");
+const orderRoutes = require("./Routes/orderRoutes");
 require("dotenv").config();
 var cors = require("cors");
 
@@ -49,7 +50,6 @@ app.post("/neworder", (req, res) => {
   axios
     .post("https://indianprovider.com/api/v2", newOrder)
     .then(function (response) {
-      console.log("res", response.data);
       res.status(201).json(response.data);
     })
     .catch(function (error) {
@@ -63,6 +63,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRoutes);
+app.use("/order", orderRoutes);
 app.listen(process.env.PORT || port, () =>
   console.log(`Example app listening on port ${port}!`)
 );

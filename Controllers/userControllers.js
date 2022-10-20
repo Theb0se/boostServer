@@ -1,10 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../model/userModel");
+
 var bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync(10);
 
 const registerUser = asyncHandler(async (req, res) => {
-  console.log(55);
   const { name, email, password, number } = req.body;
 
   if (!name || !email || !password || !number) {
