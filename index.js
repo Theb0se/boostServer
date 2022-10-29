@@ -51,6 +51,7 @@ app.post("/neworder", (req, res) => {
     .post("https://indianprovider.com/api/v2", newOrder)
     .then(function (response) {
       res.status(201).json(response.data);
+      console.log(response.data);
     })
     .catch(function (error) {
       res.status(400).str(error);

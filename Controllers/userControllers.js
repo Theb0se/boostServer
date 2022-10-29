@@ -43,7 +43,10 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  const passwordMatch = bcrypt.compareSync(password, user.password);
+
+  const passwordMatch = user
+    ? bcrypt.compareSync(password, user.password)
+    : false;
   if (user && passwordMatch) {
     res.status(201).json({
       id: user._id,
@@ -52,8 +55,7 @@ const authUser = asyncHandler(async (req, res) => {
       number: user.number,
     });
   } else {
-    res.status(400);
-    res.sendStatus("Incorrect Email Or Password");
+    res.status(400).json("Incorrect Email Or Password");
     throw new Error("Incorrect Email Or Password");
   }
 });

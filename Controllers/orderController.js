@@ -43,7 +43,6 @@ const getOrder = asyncHandler(async (req, res) => {
     .post("https://indianprovider.com/api/v2", MultiStatus)
     .then(function (response) {
       const order = response.data;
-
       const arrayOrder = Object.values(order);
       res.status(201).json({
         orders: orders,
