@@ -28,6 +28,7 @@ const postOrder = asyncHandler(async (req, res) => {
     throw new Error("Please Try Again");
   }
 });
+
 const getOrder = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const orders = await Order.find({ userId: userId }).sort({ orderNumber: 1 });
@@ -38,6 +39,8 @@ const getOrder = asyncHandler(async (req, res) => {
     action: "status",
     orders: allOrder.toString(),
   };
+
+  console.log(MultiStatus);
 
   axios
     .post("https://indianprovider.com/api/v2", MultiStatus)

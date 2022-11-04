@@ -80,7 +80,7 @@ const updateEmail = asyncHandler(async (req, res) => {
       { new: true }
     );
     if (!UpdateEmail) {
-      res.status(404);
+      res.status(404).json("something went Wrong");
       throw new Error("something went Wrong");
     } else {
       res.status(201).json({
@@ -91,7 +91,7 @@ const updateEmail = asyncHandler(async (req, res) => {
       });
     }
   } else {
-    res.status(404);
+    res.status(404).json("Password Wrong");
     throw new Error("Password Wrong");
   }
 });
