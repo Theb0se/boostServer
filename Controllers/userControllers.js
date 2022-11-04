@@ -111,19 +111,14 @@ const updatePassword = asyncHandler(async (req, res) => {
       { new: true }
     );
     if (!updatePass) {
-      res.status(404);
+      res.status(404).json("something went Wrong");
       throw new Error("something went Wrong");
     } else {
-      res.status(201).json({
-        id: updatePass._id,
-        name: updatePass.name,
-        email: updatePass.email,
-        number: updatePass.number,
-      });
+      res.status(201).json("Password Changed");
     }
   } else {
-    res.status(404);
-    throw new Error("Password Wrong Or Email");
+    res.status(404).json("Please Enter Correct Password");
+    throw new Error("Please Enter Correct Password");
   }
 });
 
