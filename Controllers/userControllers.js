@@ -91,8 +91,8 @@ const updateEmail = asyncHandler(async (req, res) => {
       });
     }
   } else {
-    res.status(404).json("Password Wrong");
-    throw new Error("Password Wrong");
+    res.status(404).json("Please Enter Correct Password");
+    throw new Error("Please Enter Correct Password");
   }
 });
 
