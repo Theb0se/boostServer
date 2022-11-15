@@ -145,6 +145,26 @@ const editUser = asyncHandler(async (req, res) => {
   }
 });
 
+const changePassword = asyncHandler(async (req, res) => {
+  const { userId, Password } = req.body;
+  const hashPass = bcrypt.hashSync(Password, salt);
+
+  const updatePass = await User.findByIdAndUpdate(
+    userId,
+    {
+      password: hashPass,
+    },
+    { new: true }
+  );
+
+  if (!updatePass) {
+    res.status(404).json("something went Wrong");
+    throw new Error("something went Wrong");
+  } else {
+    res.status(201).json("Password Changed");
+  }
+});
+
 module.exports = {
   registerUser,
   authUser,
@@ -152,4 +172,5 @@ module.exports = {
   updatePassword,
   getAllUser,
   editUser,
+  changePassword,
 };
