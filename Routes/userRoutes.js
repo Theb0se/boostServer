@@ -5,6 +5,7 @@ const {
   updateEmail,
   updatePassword,
   getAllUser,
+  editUser,
 } = require("../Controllers/userControllers");
 
 const router = express.Router();
@@ -13,5 +14,6 @@ router.post("/login", authUser);
 router.post("/updateEmail", updateEmail);
 router.post("/updatePassword", updatePassword);
 router.get("/allUsers", getAllUser);
+router.post("/updateUser", editUser);
 
 module.exports = router;

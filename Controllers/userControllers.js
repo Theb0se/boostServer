@@ -126,6 +126,24 @@ const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.status(201).json(users);
 });
+const editUser = asyncHandler(async (req, res) => {
+  const { userId, email, name } = req.body;
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      name: name,
+      email: email,
+    },
+    { new: true }
+  );
+  if (!user) {
+    res.status(404).json("something went Wrong");
+    throw new Error("something went Wrong");
+  } else {
+    const users = await User.find({});
+    res.status(201).json(users);
+  }
+});
 
 module.exports = {
   registerUser,
@@ -133,4 +151,5 @@ module.exports = {
   updateEmail,
   updatePassword,
   getAllUser,
+  editUser,
 };
