@@ -122,6 +122,9 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Admin configs
+
 const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.status(201).json(users);
