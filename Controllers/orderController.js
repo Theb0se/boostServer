@@ -1,22 +1,19 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../model/orderModel");
 const axios = require("axios");
-const User = require("../model/userModel");
 
 const postOrder = asyncHandler(async (req, res) => {
-  const { orderNumber, userId, link, service, quantity } = req.body;
+  const { orderNumber, userId, link, service, quantity, email, username } =
+    req.body;
   if (!orderNumber || !userId || !link || !service) {
     res.status(400);
     throw new Error("Please Enter All The Fields");
   }
 
-  const user = await User.findOne({ userId });
-  const username = user.name;
-
-
   const order = await Order.create({
     orderNumber,
     username,
+    email,
     userId,
     link,
     service,
