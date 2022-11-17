@@ -59,6 +59,26 @@ app.post("/neworder", (req, res) => {
     });
 });
 
+// get balence from api
+
+app.get("/getbalence", (req, res) => {
+  const data = {
+    key: "8eac711290c821166246944b29bf1f62",
+    action: "balance",
+  };
+
+  axios
+    .post("https://indianprovider.com/api/v2", data)
+    .then(function (response) {
+      res.status(201).json(response.data);
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      res.status(400).json(error);
+      console.log(error);
+    });
+});
+
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
