@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const app = express();
 const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
+const suppoRtroute = require("./Routes/suppoRtroute");
 require("dotenv").config();
 var cors = require("cors");
 
@@ -14,7 +15,7 @@ app.use(cors());
 connectDB();
 app.use(express.json());
 
-const port = 3000;
+const port = 8080;
 
 // GET Services FROM API
 app.post("/", (req, res) => {
@@ -85,6 +86,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
+app.use("/support", suppoRtroute);
 app.listen(process.env.PORT || port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
