@@ -4,6 +4,7 @@ const app = express();
 const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
 const suppoRtroute = require("./Routes/suppoRtroute");
+const paymentRoutes = require("./Routes/paymentRoutes");
 require("dotenv").config();
 var cors = require("cors");
 
@@ -87,6 +88,7 @@ app.get("/", (req, res) => {
 app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
 app.use("/support", suppoRtroute);
+app.use("/payment", paymentRoutes);
 app.listen(process.env.PORT || port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
