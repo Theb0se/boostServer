@@ -30,11 +30,33 @@ const getUserSupport = asyncHandler(async (req, res) => {
   const tickets = await Support.find({ userId: userId });
 
   if (tickets) {
-    console.log(tickets);
     res.status(201).json(tickets);
   } else {
     res.status(400).json("Something Went Wrong. Please Try Again");
   }
 });
 
-module.exports = { postSupport, getAllSupport, getUserSupport };
+// set support status
+
+const setSupportStatus = asyncHandler(async (req, res) => {
+  const { supportId } = req.body;
+  const resolved = await Support.findByIdAndUpdate(
+    supportId,
+    {
+      status: "Resolved",
+    },
+    { new: true }
+  );
+  if (resolved) {
+    res.status(201).json(resolved);
+  } else {
+    res.status(400).json("Something Went Wrong. Please Try Again");
+  }
+});
+
+module.exports = {
+  postSupport,
+  getAllSupport,
+  getUserSupport,
+  setSupportStatus,
+};
