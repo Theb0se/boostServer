@@ -3,7 +3,7 @@ const connectDB = require("./config/db");
 const app = express();
 const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
-const suppoRtroute = require("./Routes/supportRoute");
+const suppoRtroute = require("./Routes/supportRoutes");
 const paymentRoutes = require("./Routes/paymentRoutes");
 const axios = require("axios");
 require("dotenv").config();
