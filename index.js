@@ -5,13 +5,11 @@ const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
 const suppoRtroute = require("./Routes/supportRoute");
 const paymentRoutes = require("./Routes/paymentRoutes");
+const axios = require("axios");
 require("dotenv").config();
 var cors = require("cors");
 
-app.use(cors());
-var cors = require("cors");
-const axios = require("axios");
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 connectDB();
 app.use(express.json());
