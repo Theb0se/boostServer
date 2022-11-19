@@ -15,7 +15,6 @@ const newPayment = asyncHandler(async (req, res) => {
   });
   if (newOrder) {
     res.status(201).json(newOrder);
-    console.log(newOrder);
   } else {
     res.status(400).json("Please Try Again");
     console.log("error");
