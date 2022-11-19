@@ -14,7 +14,7 @@ app.use(cors({ origin: "*" }));
 connectDB();
 app.use(express.json());
 
-const port = 8080;
+const port = 3000;
 
 // GET Services FROM API
 app.post("/", (req, res) => {
