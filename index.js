@@ -38,7 +38,9 @@ app.post("/", (req, res) => {
 
 // POST NEW ORDER TO API
 app.post("/neworder", (req, res) => {
-  const { key, action, service, link, quantity } = req.body;
+  const { action, service, link, quantity } = req.body;
+  const key = "96e9f387fd986b94b621c80aefadfed8";
+
   const newOrder = {
     key,
     action,
