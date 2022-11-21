@@ -63,7 +63,7 @@ app.post("/neworder", (req, res) => {
 
 app.get("/getbalence", (req, res) => {
   const data = {
-    key: "8eac711290c821166246944b29bf1f62",
+    key: "96e9f387fd986b94b621c80aefadfed8",
     action: "balance",
   };
 
