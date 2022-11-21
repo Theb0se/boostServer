@@ -36,7 +36,7 @@ const getOrder = asyncHandler(async (req, res) => {
   console.log(userId);
   const allOrder = orders.map((o) => o.orderNumber);
   const MultiStatus = {
-    key: "8eac711290c821166246944b29bf1f62",
+    key: "96e9f387fd986b94b621c80aefadfed8",
     action: "status",
     orders: allOrder.toString(),
   };
@@ -65,7 +65,7 @@ const getAllOrder = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).sort({ orderNumber: 1 });
   const allOrder = orders.map((o) => o.orderNumber);
   const MultiStatus = {
-    key: "8eac711290c821166246944b29bf1f62",
+    key: "96e9f387fd986b94b621c80aefadfed8",
     action: "status",
     orders: allOrder.toString(),
   };
