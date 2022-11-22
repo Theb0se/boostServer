@@ -5,6 +5,8 @@ const userModel = mongoose.Schema(
     email: { type: String, required: true, unique: true },
     number: { type: Number, required: true },
     password: { type: String, required: true },
+    balence: { type: Number, default: 0 },
+    orders: [{ type: "ObjectId", ref: "Order" }],
   },
   { timestamps: true }
 );
