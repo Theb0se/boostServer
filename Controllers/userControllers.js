@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../model/userModel");
 
 var bcrypt = require("bcryptjs");
+const { use } = require("passport");
 var salt = bcrypt.genSaltSync(10);
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -44,7 +45,6 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email }).populate("orders");
-  console.log(user);
   const passwordMatch = user
     ? bcrypt.compareSync(password, user.password)
     : false;
@@ -54,6 +54,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       number: user.number,
+      orders: user.orders,
     });
   } else {
     res.status(400).json("Incorrect Email Or Password");
