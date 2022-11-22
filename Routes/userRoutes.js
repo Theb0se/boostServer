@@ -7,6 +7,7 @@ const {
   getAllUser,
   editUser,
   changePassword,
+  GetBlnc,
 } = require("../Controllers/userControllers");
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post("/updatePassword", updatePassword);
 router.get("/allUsers", getAllUser);
 router.post("/updateUser", editUser);
 router.post("/ChangePassword", changePassword);
+router.post("/getBlnc", GetBlnc);
 
 module.exports = router;

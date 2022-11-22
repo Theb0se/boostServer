@@ -28,6 +28,7 @@ const getAllSupport = asyncHandler(async (req, res) => {
 const getUserSupport = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const tickets = await Support.find({ userId: userId });
+  console.log(tickets);
 
   if (tickets) {
     res.status(201).json(tickets);

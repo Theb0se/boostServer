@@ -62,6 +62,16 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const GetBlnc = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    res.status(201).json({
+      balence: user.balence,
+    });
+  }
+});
+
 const updateEmail = asyncHandler(async (req, res) => {
   const { userId, email, currEmail, password } = req.body;
   console.log(userId, email, currEmail, password);
@@ -176,4 +186,5 @@ module.exports = {
   getAllUser,
   editUser,
   changePassword,
+  GetBlnc,
 };
