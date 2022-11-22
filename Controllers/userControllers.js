@@ -43,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate({ orders });
 
   const passwordMatch = user
     ? bcrypt.compareSync(password, user.password)
@@ -122,11 +122,10 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
-
 // Admin configs
 
 const getAllUser = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate({ orders });
   res.status(201).json(users);
 });
 const editUser = asyncHandler(async (req, res) => {
