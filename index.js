@@ -5,9 +5,11 @@ const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
 const suppoRtroute = require("./Routes/supportRoutes");
 const paymentRoutes = require("./Routes/paymentRoutes");
+const asyncHandler = require("express-async-handler");
 const axios = require("axios");
 require("dotenv").config();
 var cors = require("cors");
+const Api = require("./model/apiModel");
 
 app.use(cors({ origin: "*" }));
 
@@ -84,6 +86,24 @@ app.get("/getbalence", (req, res) => {
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+// Api Configs
+app.post(
+  "/newApi",
+  asyncHandler(async (req, res) => {
+    const { api, key } = req.body;
+    const newApi = await Api.create({
+      api,
+      key,
+    });
+
+    if (newApi) {
+      console.log(newApi);
+    } else {
+      console.log("Something Went Wrong");
+    }
+  })
+);
 
 app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
