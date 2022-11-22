@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../model/orderModel");
 const axios = require("axios");
+const User = require("../model/userModel");
 
 const postOrder = asyncHandler(async (req, res) => {
   const { orderNumber, userId, link, service, quantity, email, username } =
@@ -21,6 +22,11 @@ const postOrder = asyncHandler(async (req, res) => {
   });
 
   if (order) {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $push: { orders: order._id } },
+      { new: true }
+    );
     res.status(201).json(order);
     console.log(order);
   } else {
