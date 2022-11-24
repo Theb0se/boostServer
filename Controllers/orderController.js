@@ -27,6 +27,10 @@ const postOrder = asyncHandler(async (req, res) => {
       { $push: { orders: order._id } },
       { new: true }
     );
+    const amount = quantity * 0.13;
+    await User.findByIdAndUpdate(userId, {
+      $inc: { balence: -amount },
+    });
     res.status(201).json(order);
     console.log(order);
   } else {
@@ -38,6 +42,7 @@ const postOrder = asyncHandler(async (req, res) => {
 
 const getOrder = asyncHandler(async (req, res) => {
   const { userId } = req.body;
+  let canceldOrder;
   const orders = await Order.find({ userId: userId }).sort({ orderNumber: 1 });
   console.log(userId);
   const allOrder = orders.map((o) => o.orderNumber);

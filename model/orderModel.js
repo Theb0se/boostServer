@@ -8,6 +8,7 @@ const orderModel = mongoose.Schema(
     link: { type: String, required: true },
     service: { type: String, required: true },
     quantity: { type: String, required: true },
+    isRefund: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

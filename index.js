@@ -98,9 +98,40 @@ app.post(
     });
 
     if (newApi) {
-      console.log(newApi);
+      res.status(201).json(newApi);
     } else {
       console.log("Something Went Wrong");
+    }
+  })
+);
+
+// Get Api Details
+
+app.get(
+  "/getApi",
+  asyncHandler(async (req, res) => {
+    const api = await Api.find({});
+    res.send(api);
+  })
+);
+
+// Update Api
+app.post(
+  "/updateApi",
+  asyncHandler(async (req, res) => {
+    const { key, api, id } = req.body;
+    console.log(key, api, id);
+    const newApi = await Api.findByIdAndUpdate(
+      id,
+      {
+        api: api,
+        key: key,
+      },
+      { new: true }
+    );
+
+    if (newApi) {
+      res.status(201).json(newApi);
     }
   })
 );
