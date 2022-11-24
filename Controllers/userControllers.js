@@ -73,10 +73,8 @@ const GetBlnc = asyncHandler(async (req, res) => {
 
 const updateEmail = asyncHandler(async (req, res) => {
   const { userId, email, currEmail, password } = req.body;
-  console.log(userId, email, currEmail, password);
 
   const user = await User.findOne({ email: currEmail });
-  console.log(user);
 
   const passwordMatch = user
     ? bcrypt.compareSync(password, user.password)
@@ -108,7 +106,6 @@ const updateEmail = asyncHandler(async (req, res) => {
 
 const updatePassword = asyncHandler(async (req, res) => {
   const { userId, email, currPassword, password } = req.body;
-  console.log(userId, email, currPassword, password);
   const hashpass = bcrypt.hashSync(password, salt);
   const user = await User.findOne({ email });
   const passwordMatch = bcrypt.compareSync(currPassword, user.password);
