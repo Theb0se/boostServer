@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const User = require("../model/userModel");
 
 var bcrypt = require("bcryptjs");
-const { use } = require("passport");
 var salt = bcrypt.genSaltSync(10);
 
 const registerUser = asyncHandler(async (req, res) => {

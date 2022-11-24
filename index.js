@@ -1,6 +1,7 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
+const adminRoutes = require("./Routes/adminRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
 const suppoRtroute = require("./Routes/supportRoutes");
@@ -136,6 +137,7 @@ app.post(
   })
 );
 
+app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
 app.use("/support", suppoRtroute);
