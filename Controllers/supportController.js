@@ -44,7 +44,7 @@ const setSupportStatus = asyncHandler(async (req, res) => {
   const resolved = await Support.findByIdAndUpdate(
     supportId,
     {
-      status: "Resolved",
+      status: "Solved",
     },
     { new: true }
   );
