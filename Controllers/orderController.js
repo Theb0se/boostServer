@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Order = require("../model/orderModel");
 const axios = require("axios");
 const User = require("../model/userModel");
+const Api = require("../model/apiModel");
 
 const postOrder = asyncHandler(async (req, res) => {
   const { orderNumber, userId, link, service, quantity, email, username } =
@@ -44,15 +45,13 @@ const getOrder = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   let canceldOrder;
   const orders = await Order.find({ userId: userId }).sort({ orderNumber: 1 });
-  console.log(userId);
+  const api = await Api.find({});
   const allOrder = orders.map((o) => o.orderNumber);
   const MultiStatus = {
-    key: "96e9f387fd986b94b621c80aefadfed8",
+    key: api.key,
     action: "status",
     orders: allOrder.toString(),
   };
-
-  console.log(MultiStatus);
 
   axios
     .post("https://indianprovider.com/api/v2", MultiStatus)
@@ -75,8 +74,9 @@ const getOrder = asyncHandler(async (req, res) => {
 const getAllOrder = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).sort({ orderNumber: 1 });
   const allOrder = orders.map((o) => o.orderNumber);
+  const apikey = await Api.find({});
   const MultiStatus = {
-    key: "96e9f387fd986b94b621c80aefadfed8",
+    key: apikey.key,
     action: "status",
     orders: allOrder.toString(),
   };

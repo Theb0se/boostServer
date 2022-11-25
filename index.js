@@ -40,9 +40,10 @@ app.post("/", (req, res) => {
 });
 
 // POST NEW ORDER TO API
-app.post("/neworder", (req, res) => {
+app.post("/neworder", async (req, res) => {
   const { action, service, link, quantity } = req.body;
-  const key = "96e9f387fd986b94b621c80aefadfed8";
+  const api = await Api.find({});
+  const key = api.key;
 
   const newOrder = {
     key,
@@ -66,9 +67,11 @@ app.post("/neworder", (req, res) => {
 
 // get balence from api
 
-app.get("/getbalence", (req, res) => {
+app.get("/getbalence", async (req, res) => {
+  const api = await Api.find({});
+  const key = api.key;
   const data = {
-    key: "96e9f387fd986b94b621c80aefadfed8",
+    key: key,
     action: "balance",
   };
 
