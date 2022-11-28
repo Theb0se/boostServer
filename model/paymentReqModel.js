@@ -2,7 +2,7 @@ const { default: mongoose } = require("mongoose");
 const PaymentReq = mongoose.Schema(
   {
     userId: { type: String, required: true },
-    username: { type: String, required: true },
+    email: { type: String, required: true },
     method: { type: String, required: true },
     transactionID: { type: String, required: true },
     status: { type: String, default: "pending" },
