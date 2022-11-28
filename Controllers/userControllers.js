@@ -179,6 +179,7 @@ const addDescount = asyncHandler(async (req, res) => {
 
   const newDesc = await User.findByIdAndUpdate(
     userid,
+    
     {
       descount: descount,
     },
