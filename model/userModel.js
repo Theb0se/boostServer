@@ -7,6 +7,7 @@ const userModel = mongoose.Schema(
     password: { type: String, required: true },
     balence: { type: Number, default: 0 },
     orders: [{ type: "ObjectId", ref: "Order" }],
+    descount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -174,6 +174,25 @@ const changePassword = asyncHandler(async (req, res) => {
   }
 });
 
+const addDescount = asyncHandler(async (req, res) => {
+  const { userid, descount } = req.body;
+
+  const newDesc = await User.findByIdAndUpdate(
+    userid,
+    {
+      descount: descount,
+    },
+    { new: true }
+  );
+
+  if (newDesc) {
+    console.log(newDesc);
+    res.status(201).json("Descount Set");
+  } else {
+    res.status(400).json("Something Went Wrong");
+  }
+});
+
 module.exports = {
   registerUser,
   authUser,
@@ -183,4 +202,5 @@ module.exports = {
   editUser,
   changePassword,
   GetBlnc,
+  addDescount,
 };
