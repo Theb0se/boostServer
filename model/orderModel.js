@@ -9,6 +9,7 @@ const orderModel = mongoose.Schema(
     service: { type: String, required: true },
     quantity: { type: String, required: true },
     isRefund: { type: Boolean, default: false },
+    charge: { type: Number },
   },
   { timestamps: true }
 );

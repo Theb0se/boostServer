@@ -4,12 +4,22 @@ const axios = require("axios");
 const User = require("../model/userModel");
 
 const postOrder = asyncHandler(async (req, res) => {
-  const { orderNumber, userId, link, service, quantity, email, username } =
-    req.body;
+  const {
+    orderNumber,
+    userId,
+    link,
+    service,
+    quantity,
+    email,
+    username,
+    charge,
+  } = req.body;
   if (!orderNumber || !userId || !link || !service) {
     res.status(400);
     throw new Error("Please Enter All The Fields");
   }
+
+  console.log(charge);
 
   const order = await Order.create({
     orderNumber,
@@ -19,6 +29,7 @@ const postOrder = asyncHandler(async (req, res) => {
     link,
     service,
     quantity,
+    charge,
   });
 
   if (order) {
@@ -27,9 +38,9 @@ const postOrder = asyncHandler(async (req, res) => {
       { $push: { orders: order._id } },
       { new: true }
     );
-    const amount = quantity * 0.13;
+
     await User.findByIdAndUpdate(userId, {
-      $inc: { balence: -amount },
+      $inc: { balence: -charge },
     });
     res.status(201).json(order);
     console.log(order);
@@ -74,7 +85,7 @@ const getOrder = asyncHandler(async (req, res) => {
       if (isPartialRefund) {
         for (let i = 0; i < isPartialRefund?.length; i++) {
           const Id = isPartialRefund[i].ordermain._id;
-          await Order.findByIdAndUpdate(
+          const ordr = await Order.findByIdAndUpdate(
             Id,
             {
               isRefund: true,
@@ -82,11 +93,8 @@ const getOrder = asyncHandler(async (req, res) => {
             { new: true }
           );
 
-          const rmn = parseFloat(isPartialRefund[i].remains);
-          const amt = rmn * 0.13;
-
           await User.findByIdAndUpdate(userId, {
-            $inc: { balence: amt },
+            $inc: { balence: ordr.charge },
           });
         }
       }
@@ -101,7 +109,7 @@ const getOrder = asyncHandler(async (req, res) => {
       if (isCancelRefund) {
         for (let i = 0; i < isCancelRefund?.length; i++) {
           const Id = isCancelRefund[i].ordermain._id;
-          await Order.findByIdAndUpdate(
+          const ordr = await Order.findByIdAndUpdate(
             Id,
             {
               isRefund: true,
@@ -109,11 +117,8 @@ const getOrder = asyncHandler(async (req, res) => {
             { new: true }
           );
 
-          const rmn = parseFloat(isCancelRefund[i].ordermain.quantity);
-          const amt = rmn * 0.13;
-
           await User.findByIdAndUpdate(userId, {
-            $inc: { balence: amt },
+            $inc: { balence: ordr.charge },
           });
         }
       }
