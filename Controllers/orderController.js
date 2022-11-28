@@ -13,6 +13,7 @@ const postOrder = asyncHandler(async (req, res) => {
     email,
     username,
     charge,
+    rate,
   } = req.body;
   if (!orderNumber || !userId || !link || !service) {
     res.status(400);
@@ -29,7 +30,8 @@ const postOrder = asyncHandler(async (req, res) => {
     link,
     service,
     quantity,
-    charge,
+    price: charge,
+    rate,
   });
 
   if (order) {
@@ -94,7 +96,7 @@ const getOrder = asyncHandler(async (req, res) => {
           );
 
           await User.findByIdAndUpdate(userId, {
-            $inc: { balence: ordr.charge },
+            $inc: { balence: ordr.price },
           });
         }
       }
@@ -118,7 +120,7 @@ const getOrder = asyncHandler(async (req, res) => {
           );
 
           await User.findByIdAndUpdate(userId, {
-            $inc: { balence: ordr.charge },
+            $inc: { balence: ordr.price },
           });
         }
       }
