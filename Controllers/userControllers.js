@@ -54,6 +54,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       number: user.number,
       orders: user.orders,
+      descount: user.descount,
     });
   } else {
     res.status(400).json("Incorrect Email Or Password");
@@ -96,6 +97,8 @@ const updateEmail = asyncHandler(async (req, res) => {
         name: UpdateEmail.name,
         email: UpdateEmail.email,
         number: UpdateEmail.number,
+        orders: UpdateEmail.orders,
+        descount: UpdateEmail.descount,
       });
     }
   } else {
@@ -179,7 +182,7 @@ const addDescount = asyncHandler(async (req, res) => {
 
   const newDesc = await User.findByIdAndUpdate(
     userid,
-    
+
     {
       descount: descount,
     },
