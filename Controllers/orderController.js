@@ -79,6 +79,8 @@ const getOrder = asyncHandler(async (req, res) => {
         arr.push(data);
       }
 
+      //partial refund
+
       const Partial = arr?.filter((f) => f.status === "Partial");
       const isPartialRefund = Partial?.filter(
         (f) => f.ordermain.isRefund === false
@@ -86,17 +88,24 @@ const getOrder = asyncHandler(async (req, res) => {
 
       if (isPartialRefund) {
         for (let i = 0; i < isPartialRefund?.length; i++) {
+          let remains = parseFloat(isPartialRefund[i].remains);
+          let qnt = parseFloat(isPartialRefund[i]?.ordermain.quantity);
+          let rate = isPartialRefund[i]?.ordermain.rate;
+          let refundAmt = (remains * rate).toFixed(2);
+          let newPrice = (qnt - remains) * rate;
+
           const Id = isPartialRefund[i].ordermain._id;
-          const ordr = await Order.findByIdAndUpdate(
+          await Order.findByIdAndUpdate(
             Id,
             {
               isRefund: true,
+              price: newPrice,
             },
             { new: true }
           );
 
           await User.findByIdAndUpdate(userId, {
-            $inc: { balence: ordr.price },
+            $inc: { balence: refundAmt },
           });
         }
       }
