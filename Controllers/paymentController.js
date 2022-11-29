@@ -5,18 +5,26 @@ const User = require("../model/userModel");
 const newPayment = asyncHandler(async (req, res) => {
   const { userId, email, method, transactionID, amount } = req.body;
 
-  const newOrder = await PaymentRequest.create({
-    userId,
-    email,
-    method,
-    transactionID,
-    amount,
-  });
-  if (newOrder) {
-    res.status(201).json(newOrder);
+  let idExist = await PaymentRequest.findOne({ transactionID });
+
+  if (idExist) {
+    res
+      .status(400)
+      .json("Payment Request Already Exist . Please Wait Sometime");
   } else {
-    res.status(400).json("Please Try Again");
-    console.log("error");
+    const newOrder = await PaymentRequest.create({
+      userId,
+      email,
+      method,
+      transactionID,
+      amount,
+    });
+    if (newOrder) {
+      res.status(201).json(newOrder);
+    } else {
+      res.status(400).json("Please Try Again");
+      console.log("error");
+    }
   }
 });
 
