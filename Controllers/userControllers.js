@@ -76,10 +76,16 @@ const updateEmail = asyncHandler(async (req, res) => {
   const { userId, email, currEmail, password } = req.body;
 
   const user = await User.findOne({ email: currEmail });
+  const userExists = await User.findOne({ email });
 
   const passwordMatch = user
     ? bcrypt.compareSync(password, user.password)
     : false;
+
+  if (userExists) {
+    res.status(404).json("Email Already In Use");
+    throw new Error("Please Enter Correct Password");
+  }
   if (passwordMatch) {
     const UpdateEmail = await User.findByIdAndUpdate(
       userId,
@@ -140,20 +146,28 @@ const getAllUser = asyncHandler(async (req, res) => {
 });
 const editUser = asyncHandler(async (req, res) => {
   const { userId, email, name } = req.body;
-  const user = await User.findByIdAndUpdate(
-    userId,
-    {
-      name: name,
-      email: email,
-    },
-    { new: true }
-  );
-  if (!user) {
-    res.status(404).json("something went Wrong");
-    throw new Error("something went Wrong");
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(404).json("Email Already In Use");
+    throw new Error("Email Already In Use");
   } else {
-    const users = await User.find({});
-    res.status(201).json(users);
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        name: name,
+        email: email,
+      },
+      { new: true }
+    );
+    if (!user) {
+      res.status(404).json("something went Wrong");
+      throw new Error("something went Wrong");
+    } else {
+      const users = await User.find({});
+      res.status(201).json(users);
+    }
   }
 });
 
