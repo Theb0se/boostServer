@@ -1,6 +1,9 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const http = require("http");
+const SocketIo = require("socket.io");
 const app = express();
+let server = http.createServer(app);
 const adminRoutes = require("./Routes/adminRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const orderRoutes = require("./Routes/orderRoutes");
@@ -17,7 +20,7 @@ app.use(cors({ origin: "*" }));
 connectDB();
 app.use(express.json());
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // GET Services FROM API
 app.post("/", (req, res) => {
@@ -142,6 +145,21 @@ app.use("/user", userRoutes);
 app.use("/order", orderRoutes);
 app.use("/support", suppoRtroute);
 app.use("/payment", paymentRoutes);
-app.listen(process.env.PORT || port, () =>
+
+// socket io
+
+let io = SocketIo(server, {
+  cors: {
+    origin: "*",
+  },
+});
+io.on("connection", (socket) => {
+  console.log(socket.id);
+  socket.on("NewPayment", (data) => {
+    io.emit("NewPayment", data);
+  });
+});
+
+server.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
