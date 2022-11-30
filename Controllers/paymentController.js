@@ -10,7 +10,7 @@ const newPayment = asyncHandler(async (req, res) => {
   if (idExist) {
     res
       .status(400)
-      .json("Payment Request Already Exist . Please Wait Sometime");
+      .json("Payment Request Already Exist . Please Wait Sometime .");
   } else {
     const newOrder = await PaymentRequest.create({
       userId,

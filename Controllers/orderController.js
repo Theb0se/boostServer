@@ -128,6 +128,7 @@ const getOrder = asyncHandler(async (req, res) => {
             { new: true }
           );
 
+          console.log(ordr.price);
           await User.findByIdAndUpdate(userId, {
             $inc: { balence: ordr.price },
           });

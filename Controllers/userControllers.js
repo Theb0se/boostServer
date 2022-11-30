@@ -62,6 +62,26 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const getUser = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  const user = await User.findById(userId);
+
+  if (user) {
+    res.status(201).json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      number: user.number,
+      orders: user.orders,
+      descount: user.descount,
+      balence: user.balence,
+    });
+  } else {
+    res.status(400).json("Something Went wrong");
+    throw new Error("Something Went wrong");
+  }
+});
+
 const GetBlnc = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -144,6 +164,7 @@ const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({}).populate("orders");
   res.status(201).json(users);
 });
+
 const editUser = asyncHandler(async (req, res) => {
   const { userId, email, name } = req.body;
 
@@ -221,4 +242,5 @@ module.exports = {
   changePassword,
   GetBlnc,
   addDescount,
+  getUser,
 };
