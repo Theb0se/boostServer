@@ -150,31 +150,42 @@ const getOrder = asyncHandler(async (req, res) => {
 const getAllOrder = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).sort({ orderNumber: 1 });
   const allOrder = orders.map((o) => o.orderNumber);
-  const MultiStatus = {
-    key: "96e9f387fd986b94b621c80aefadfed8",
-    action: "status",
-    orders: allOrder.toString(),
+  const loopLength = () => {
+    let isremender = allOrder.length % 100;
+    if (isremender !== 0) {
+      return Math.floor(allOrder.length / 100) + 1;
+    } else {
+      return Math.floor(allOrder.length / 100);
+    }
   };
 
-  axios
-    .post("https://indianprovider.com/api/v2", MultiStatus)
-    .then(function (response) {
-      const order = response.data;
-      const arrayOrder = Object.values(order);
-      let arr = [];
+  let arr = [];
+  for (let index = 0; index < loopLength(); index++) {
+    const orderNumber = allOrder.slice(index * 100, (index + 1) * 100 - 1);
+    const splitOrder = orders.slice(index * 100, (index + 1) * 100 - 1);
+    const MultiStatus = {
+      key: "96e9f387fd986b94b621c80aefadfed8",
+      action: "status",
+      orders: orderNumber.toString(),
+    };
+    await axios
+      .post("https://indianprovider.com/api/v2", MultiStatus)
+      .then(function (response) {
+        const order = response.data;
+        const arrayOrder = Object.values(order);
 
-      for (let index = 0; index < orders.length; index++) {
-        const ordermain = orders[index];
-        const data = { ...arrayOrder[index], ordermain };
-        arr.push(data);
-      }
-
-      res.status(201).json(arr);
-    })
-    .catch(function (error) {
-      res.status(400).json(error);
-      console.log(error);
-    });
+        for (let index = 0; index < splitOrder.length; index++) {
+          const ordermain = splitOrder[index];
+          const data = { ...arrayOrder[index], ordermain };
+          arr.push(data);
+        }
+      })
+      .catch(function (error) {
+        res.status(400).json(error);
+        console.log(error);
+      });
+  }
+  res.status(201).json(arr);
 });
 
 module.exports = { postOrder, getAllOrder, getOrder };
